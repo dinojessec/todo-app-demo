@@ -1,9 +1,14 @@
-import React, { useState } from "react";
-import "./App.css";
-import Label from "./components/Label/Label";
-import InputTodo from "./components/InputTodo/InputTodo";
+import React, { useState } from 'react';
 
-function App() {
+// MUI components
+import { Stack } from '@mui/material';
+import Button from "./components/Button/Button";
+import Checkbox from './components/Checkbox/Checkbox';
+import Input from "./components/Input/Input";
+import Typography from './components/Typography/Typography';
+
+
+const App2 = () => {
   const [todoInput, setTodoInput] = useState("");
   const [todoList, setTodoList] = useState([]);
 
@@ -41,25 +46,29 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <Label>Todo app</Label>
+    <>
+      <Typography variant="h5">Todo App</Typography>
       <form onSubmit={handleSubmit}>
-        <InputTodo handleOnChangeInput={handleOnChangeInput} todoInput={todoInput} />
-        <button type="submit">Add</button>
+        <Stack display="flex" direction="row" gap={2}>
+          <Input handleOnChangeInput={handleOnChangeInput} value={todoInput} />
+          <Button type="submit" variant="contained">Add</Button>
+        </Stack>
       </form>
       <ul>
         {todoList.map((todo) => (
           <div key={todo.id}>
-            <li>{todo.label}</li>
-            <input type="checkbox" onChange={() => handleComplete(todo.id)} checked={todo.isComplete} />
-            <button type="button" onClick={() => handleDeleteTodo(todo.id)}>
-              delete
-            </button>
+            <Stack display="flex" direction="row" gap={1}>
+              <Checkbox id={todo.id} on label={todo.label} checked={todo.isComplete}
+                onChange={() => handleComplete(todo.id)}
+              />
+              <Button variant="contained" onClick={() => handleDeleteTodo(todo.id)}>Delete</Button>
+
+            </Stack>
           </div>
         ))}
       </ul>
-    </div>
-  );
+    </>
+  )
 }
 
-export default App;
+export default App2;
